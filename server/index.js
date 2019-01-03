@@ -6,9 +6,14 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/health', (_, res) => res.end("ok"));
 app.get('/*', (req, res) => {
-    http.get(EXTERNAL_HOST_NAME, extRes => {
+    extReq = http.get(EXTERNAL_HOST_NAME, extRes => {
         res.end("done");
     })
+    extReq.on('error', err => {
+        console.log(err)
+        res.status(500);
+        res.end();
+    });
 });
 
 app.listen(PORT, () => console.log('server started'));

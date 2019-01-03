@@ -17,6 +17,8 @@ function go() {
     });
     req.on('error', err => {
         console.log(err);
-        process.exit(1);
+        if (err.code === 'ENOTFOUND' || err.code === "ECONNREFUSED") {
+            process.exit(1)
+        }
     })
 }
