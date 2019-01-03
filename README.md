@@ -1,4 +1,5 @@
-## Simple docker compose setup to test node out of memory
+## Stupid test
+Simple docker compose setup to test node out of memory
 
 ### Usage
 ```
