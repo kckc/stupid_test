@@ -8,7 +8,7 @@ services:
     environment:
       HOSTNAME: http://server:3000
       INTERVAL: 1
-    mem_limit: 10000000
+    mem_limit: 100000000
   server:
     build: ./server
     depends_on:
@@ -16,21 +16,20 @@ services:
         condition: service_healthy
     environment:
       EXTERNAL_HOST_NAME: http://external:3000
-    mem_limit: 10000000
+    mem_limit: 100000000
     healthcheck:
       test: ["CMD", "curl", "http://localhost:3000/health"]
       interval: 1s
       timeout: 1m
       retries: 5
-      start_period: 3s
+    command: ["node", "--max-old-space-size=5", "index.js"]
   external:
     build: ./external
     environment:
       DELAY: 3000
-    mem_limit: 10000000
+    mem_limit: 100000000
     healthcheck:
       test: ["CMD", "curl", "http://localhost:3000/health"]
       interval: 1s
       timeout: 1m
       retries: 5
-      start_period: 3s

@@ -1,4 +1,4 @@
-from node:10-slim
+from node:8-slim
 
 workdir /app
 copy package.json package.json
