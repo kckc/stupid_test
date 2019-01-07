@@ -16,6 +16,7 @@ services:
         condition: service_healthy
     environment:
       EXTERNAL_HOST_NAME: http://external:3000
+      EXT_TIMEOUT: 1100
     mem_limit: 100000000
     healthcheck:
       test: ["CMD", "curl", "http://localhost:3000/health"]
@@ -27,6 +28,7 @@ services:
     build: ./external
     environment:
       DELAY: 3000
+      INCREMENT: 5
     mem_limit: 100000000
     healthcheck:
       test: ["CMD", "curl", "http://localhost:3000/health"]
