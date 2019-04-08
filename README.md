@@ -48,4 +48,15 @@ make request with axios with timeout, at the same time run something that blocks
   - external: `DELAY = 0` `INCREMENT=0`
 - Result
   - **server** receives the request and was blocked before sending request to **external**
+  - request takes longer that the set timeout period (1s) to reach **client**
   - some requests has a long delay before returning to **client** due to timeout, but the request doesn't reach **external**
+
+### test 3
+same as test 2, changed `axios` library to `got`
+- Setup
+  - client: `INTERVAL = 1000`
+  - server: `EXT_TIMEOUT = 1000` `READ_LARGE_FILE=true`
+  - external: `DELAY = 0` `INCREMENT=0`
+- Result
+  - requests still takes more than the set timeout period (1s) to reach **client**
+  - no request to **external** service were dropped
