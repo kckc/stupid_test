@@ -2,9 +2,10 @@ const http = require('http');
 
 const HOSTNAME = process.env.HOSTNAME;
 const INTERVAL = process.env.INTERVAL;
+const DELAY_START = process.env.DELAY_START || 0;
 let i = 0;
 
-setInterval(go, INTERVAL);
+setTimeout(() => setInterval(go, INTERVAL), DELAY_START);
 
 function go() {
     const id = i++;

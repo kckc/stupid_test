@@ -7,7 +7,8 @@ services:
         condition: service_healthy
     environment:
       HOSTNAME: http://server:3000
-      INTERVAL: 1
+      INTERVAL: 1000
+      DELAY_START: 3000
     mem_limit: 100000000
   server:
     build: ./server
@@ -16,7 +17,7 @@ services:
         condition: service_healthy
     environment:
       EXTERNAL_HOST_NAME: http://external:3000
-      EXT_TIMEOUT: 1100
+      EXT_TIMEOUT: 1000
     mem_limit: 100000000
     healthcheck:
       test: ["CMD", "curl", "http://localhost:3000/health"]
@@ -27,8 +28,8 @@ services:
   external:
     build: ./external
     environment:
-      DELAY: 3000
-      INCREMENT: 5
+      DELAY: 100
+      INCREMENT: 0
     mem_limit: 100000000
     healthcheck:
       test: ["CMD", "curl", "http://localhost:3000/health"]

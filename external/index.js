@@ -5,6 +5,7 @@ const DELAY = parseInt(process.env.DELAY) || 1000;
 const INCREMENT = parseInt(process.env.INCREMENT)|| 1;
 
 let i = DELAY;
+let reqCount = 0;
 
 app.get('/health', (_, res) => res.end("ok"));
 app.get('/*', (req, res) => {
@@ -14,7 +15,10 @@ app.get('/*', (req, res) => {
     req.on('close', () => {
         console.log('connection closed');
     })
-    setTimeout(() => res.end("done"), i += INCREMENT)
+    setTimeout(() => {
+        console.log(`ok${reqCount++}`);
+        res.end("done")
+    }, i += INCREMENT)
 });
 
 app.listen(PORT, () => console.log('external started'));
