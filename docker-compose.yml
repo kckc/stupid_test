@@ -8,7 +8,6 @@ services:
     environment:
       HOSTNAME: http://server:3000
       INTERVAL: 1000
-      DELAY_START: 3000
     mem_limit: 100000000
   server:
     build: ./server
@@ -18,17 +17,18 @@ services:
     environment:
       EXTERNAL_HOST_NAME: http://external:3000
       EXT_TIMEOUT: 1000
+      READ_LARGE_FILE: 'true'
     mem_limit: 100000000
     healthcheck:
       test: ["CMD", "curl", "http://localhost:3000/health"]
       interval: 1s
       timeout: 1m
       retries: 5
-    command: ["node", "--max-old-space-size=5", "index.js"]
+    command: ["node", "--max-old-space-size=50", "index.js"]
   external:
     build: ./external
     environment:
-      DELAY: 100
+      DELAY: 0
       INCREMENT: 0
     mem_limit: 100000000
     healthcheck:

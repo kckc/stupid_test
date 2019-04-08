@@ -6,10 +6,14 @@ const file = require('./file');
 const EXTERNAL_HOST_NAME = process.env.EXTERNAL_HOST_NAME;
 const PORT = process.env.PORT || 3000;
 
-const timeout = parseInt(process.env.EXT_TIMEOUT, 10) || 3100;
+const timeout = process.env.EXT_TIMEOUT ? parseInt(process.env.EXT_TIMEOUT, 10) : 3100;
+const READ_LARGE_FILE = process.env.READ_LARGE_FILE.toLowerCase() === 'true';
+
+let reqCount = 0;
 
 app.get('/health', (_, res) => res.end("ok"));
 app.get('/*', (req, res) => {
+    console.log(`req${reqCount++}`);
     const end =  axios.get(EXTERNAL_HOST_NAME, {timeout}).then(extRes => {
         res.end("done");
     }).catch(err => {
@@ -21,7 +25,9 @@ app.get('/*', (req, res) => {
         res.end(JSON.stringify(out));
     })
 
-    file.readLargeFile();
+    if (READ_LARGE_FILE) {
+        file.readLargeFile();
+    }
     return end;
 });
 
