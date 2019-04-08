@@ -16,7 +16,7 @@ services:
         condition: service_healthy
     environment:
       EXTERNAL_HOST_NAME: http://external:3000
-      EXT_TIMEOUT: 1000
+      EXT_TIMEOUT: 0
       READ_LARGE_FILE: 'true'
     mem_limit: 100000000
     healthcheck:

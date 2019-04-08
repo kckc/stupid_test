@@ -8,16 +8,18 @@ const PORT = process.env.PORT || 3000;
 const timeout = process.env.EXT_TIMEOUT ? parseInt(process.env.EXT_TIMEOUT, 10) : 3100;
 const READ_LARGE_FILE = process.env.READ_LARGE_FILE.toLowerCase() === 'true';
 
-const timeoutObj = {
-    
-};
+const timeoutObj = {};
+timeoutObj.retry = 0;
+if (timeout > 0) {
+    timeoutObj.timeout = timeout;
+}
 
 let reqCount = 0;
 
 app.get('/health', (_, res) => res.end("ok"));
 app.get('/*', (req, res) => {
     console.log(`req${reqCount++}`);
-    const end =  got(EXTERNAL_HOST_NAME, {timeout, retry: 0}).then(extRes => {
+    const end =  got(EXTERNAL_HOST_NAME, {timeout: timeoutObj}).then(extRes => {
         res.end("done");
     }).catch(err => {
         const out = (({code, status, data}) => ({code, status, data}))(err);
